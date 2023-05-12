@@ -1,6 +1,6 @@
 # onlyonecode
 
-DevOps/SRE - Uma aplicação web simples para validar ferramentas de monitoramento e observabilidade.
+Uma aplicação web simples
 
 ## Docker Quickstart
 
