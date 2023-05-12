@@ -1,0 +1,89 @@
+
+{% extends "layout.html" %}
+{% block css %}
+<style>
+  #hora {font-size: 120px; font-weight: 900;}
+  .social {width: 320px; margin-bottom: 30px; margin-left:auto;margin-right:auto;}
+  .gp {float: left; width: 100px;} 
+  .fb {margin-top: -1px; margin-right: 20px;  float: left; width: 100px;}
+  .tw {float:left; width: 100px; margin-right: -10px;}
+  #iframeyt {width:560px; height:315px;}
+  @media (max-width: 767px) {
+  #hora {font-size: 70px; font-weight: 800;}
+  .well { font-size: 20px;}
+  .container { width:100%; }
+  #iframeyt {width:100%; height:246px;}
+  .gp {float: left; width: 70px;} 
+  .fb {margin-top: -1px; margin-right: 20px;  float: left; width: 70px;}
+  .tw {float:left; width: 70px; margin-right: -10px;}
+  }
+
+  @media (max-width: 480px) {
+  #hora {font-size: 40px; font-weight: 700;}
+  .well { font-size: 18px; padding-left:5px;}
+  .container { width:100%; }	
+  #iframeyt {width:100%; height:246px;}
+  .gp {float: left; width: 70px;} 
+  .fb {margin-top: -1px; margin-right: 20px;  float: left; width: 70px;}
+  .tw {float:left; width: 80px; margin-right: -10px;}
+  }
+
+  body{
+  padding-bottom:30px;
+  }
+</style>
+{% endblock %}
+{% block body_class %}onload="updateClock()"{% endblock %}
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container my-5">
+      <div class="p-5 text-center bg-body-tertiary rounded-3">
+        <h1 class="text-body-emphasis">Horário de Brasília</h1>
+        <p class="col-lg-8 mx-auto fs-5 text-muted">
+          Quarta-Feira, 10 de Maio de 2023
+          <!-- <p><strong></strong></p> -->
+        </p>
+        <p id="hora"></p>
+        <div class="d-inline-flex gap-2 mb-5">
+        </div>
+      </div>
+    </div>
+</div><!-- /.jumbotron -->
+{% endblock %}
+
+{% block js %}
+<script>
+  horario=document.getElementById("hora");
+  setInterval('updateClock()', 1000);
+  var dataReal = new Date(23,05,10,16,30,13);
+  var currentTime = new Date();
+
+  var diferenca = dataReal-currentTime;
+
+  function updateClock() {
+      
+      var currentTime = new Date();
+      currentTime = new Date(currentTime.valueOf()+diferenca);
+
+      var currentHours = currentTime.getHours ( );
+      var currentMinutes = currentTime.getMinutes ( );
+      var currentSeconds = currentTime.getSeconds ( );
+
+      currentHours 	= ( currentHours < 10 ? "0" : "" ) + currentHours;
+      currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+      currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+
+      var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds;// + " " + timeOfDay;
+
+      $dia = currentTime.getDate();
+      $mes = currentTime.getMonth()+1;
+      if ($mes<10) $mes = "0"+$mes;
+      $ano = currentTime.getYear();
+      if ($ano<=1900) $ano = $ano+1900;
+      $data = $dia + "-" + $mes + "-" + $ano;
+      horario.innerHTML=(currentTimeString);
+  }
+</script>
+{% endblock %}
+

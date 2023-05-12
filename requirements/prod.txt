@@ -1,0 +1,23 @@
+# Everything needed in production
+
+# Flask
+click>=7.0
+Flask==2.3.2
+Werkzeug==2.3.4
+
+# Deployment
+gevent==22.10.2
+gunicorn>=19.9.0
+supervisor==4.2.5
+
+# Flask Static Digest
+Flask-Static-Digest==0.3.0
+
+# Caching
+Flask-Caching>=2.0.2
+
+# Debug toolbar
+Flask-DebugToolbar==0.13.1
+
+# Environment variable parsing
+environs==9.5.0

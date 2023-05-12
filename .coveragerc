@@ -1,0 +1,6 @@
+[run]
+source = onlyonecode
+omit = 
+    tests/*
+    autoapp.py
+
