@@ -1,3 +1,4 @@
+[![Build Status](https://github.com/guilhermefpv/onlyonecode/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/guilhermefpv/onlyonecode/actions/workflows/lint.yml)
 # onlyonecode
 
 Uma aplicação web simples
