@@ -1,19 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Public section, including homepage."""
+"""Public section, including homepage/healthcheck."""
+
 from datetime import datetime
 
-from flask import (
-    Blueprint,
-    current_app,
-    flash,
-    make_response,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
-
-from onlyonecode.utils import flash_errors
+from flask import Blueprint, render_template
 
 blueprint = Blueprint("public", __name__, static_folder="../static")
 
@@ -27,13 +17,15 @@ def home():
 
 @blueprint.route("/healthcheck/")
 def healthcheck():
-    """Healthcheck"""
+    """Home page."""
     return "Working OK"
     # return render_template("public/healthcheck.html")
 
 
 @blueprint.route("/dinamico/")
 def dinamico():
+    """Home page."""
+
     now = datetime.now()
     request_time = now.strftime("%d/%m/%Y %H:%M:%S")  # dd/mm/YY H:M:S
     # log.info(

@@ -18,3 +18,4 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG_TB_ENABLED = DEBUG
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 CACHE_TYPE = "SimpleCache"  # Can be "MemcachedCache", "RedisCache", etc.
+CACHE_DEFAULT_TIMEOUT: 300
