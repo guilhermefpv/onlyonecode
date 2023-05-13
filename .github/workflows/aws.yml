@@ -38,6 +38,13 @@ env:
     ECS_CLUSTER: cluster
     ECS_TASK_DEFINITION: ecs-task-definition-web
     CONTAINER_NAME: chowchow
+    FLASK_APP:  autoapp.py
+    FLASK_DEBUG: 0
+    FLASK_ENV:  production
+    GUNICORN_WORKERS: 4
+    LOG_LEVEL:  info
+    SECRET_KEY: fLtqRxhPGJ9Z0mQDnffuRUBEL_FYf5ueLHSXbPRIuVY
+    SEND_FILE_MSEND_FILE_MAX_AGE_DEFAULT: 3155692
 
 permissions:
   contents: read
@@ -67,6 +74,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
+        FLASK_ENV: ${{ env.FLASK_ENV }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
