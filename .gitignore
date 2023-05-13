@@ -2,7 +2,7 @@
 
 # C extensions
 *.so
-
+test-task/
 # Packages
 *.egg
 *.egg-info
