@@ -10,25 +10,14 @@ x-default-volumes: &default_volumes
     - node-modules:/app/node_modules
 
 services:
-  flask-dev:
-    build:
-      context: .
-      target: development
-      args:
-        <<: *build_args
-    image: "onlyonecode-development"
-    ports:
-      - "8080:5000"
-      - "2992:2992"
-    <<: *default_volumes
-
   flask-prod:
     build:
       context: .
       target: production
       args:
         <<: *build_args
-    image: "onlyonecode-production"
+    image: "chochow-prod"
+    #x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:12345:secret:${{secrets.DockerHubAccessToken}}"
     ports:
       - "8080:5000"
     environment:
@@ -36,21 +25,6 @@ services:
       FLASK_DEBUG: 0
       LOG_LEVEL: info
       GUNICORN_WORKERS: 4
-    <<: *default_volumes
-
-  manage:
-    build:
-      context: .
-      target: development
-      args:
-        <<: *build_args
-    entrypoint: flask
-    environment:
-      FLASK_ENV: production
-      FLASK_DEBUG: 0
-    image: "onlyonecode-manage"
-    stdin_open: true
-    tty: true
     <<: *default_volumes
 
 volumes:
