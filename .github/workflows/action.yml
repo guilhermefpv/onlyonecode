@@ -1,4 +1,4 @@
-name: Deploy Container image to aws ECR
+name: Deploy Container image to AWS ECR
 on:
   push:
     branches: [ master ]
@@ -7,7 +7,7 @@ on:
 jobs: 
     aws_ecr_dockerfile_deploy:
         runs-on: ubuntu-latest
-        name: AWS ecr deploy- A job that deploys a image(s) container using a aws ecrdocker compose file deploy
+        name: Deploy Container image to AWS ECR
         steps:
             - name: Checkout
               uses: actions/checkout@v3
