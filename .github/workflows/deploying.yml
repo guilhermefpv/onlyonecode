@@ -3,7 +3,7 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches: [ master ]
-
+    
 env:
     AWS_REGION: us-east-1
     ECR_REPOSITORY: devops
@@ -25,6 +25,7 @@ permissions:
   contents: read
 
 jobs:
+  
     deploy:
         name: Deploy
         runs-on: ubuntu-latest
@@ -64,8 +65,8 @@ jobs:
             # Build a docker container and
             # push it to ECR so that it can
             # be deployed to ECS.
-            docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY/$ECR_IMAGE_NAME:latest .
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY/$ECR_IMAGE_NAME:latest
+            docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow:latest .
+            docker push 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow:latest
             echo "image=$ECR_REGISTRY/$ECR_REPOSITORY/$ECR_IMAGE_NAME:latest" >> $GITHUB_OUTPUT
             echo "image=$ECR_REGISTRY/$ECR_REPOSITORY/$ECR_IMAGE_NAME:latest"
             echo "$ECR_REGISTRY/$ECR_REPOSITORY/$ECR_IMAGE_NAME:latest"
