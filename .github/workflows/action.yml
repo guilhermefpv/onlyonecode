@@ -20,7 +20,7 @@ jobs:
                 region: ${{ secrets.AWS_REGION }}
                 aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
                 repo_uri: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/devops
-                image_name: chochow-prod
+                image_name: chochow
 
                 use_compose: true
 

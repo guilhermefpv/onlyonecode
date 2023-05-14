@@ -18,8 +18,8 @@ services:
       target: production
       args:
         <<: *build_args
-    image: chochow-prod
-    # image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow-prod
+    
+    image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow
     #x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:12345:secret:${{secrets.DockerHubAccessToken}}"
     ports:
       - "8080:5000"

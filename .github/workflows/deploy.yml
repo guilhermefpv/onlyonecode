@@ -34,10 +34,10 @@ on:
     branches: [ "master" ]
 env:
     AWS_REGION: us-east-1
-    ECR_REPOSITORY: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops
+    ECR_REPOSITORY: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
-    ECS_TASK_DEFINITION: ecs-task-definition-web
+    ECS_TASK_DEFINITION: ecs-task-definition-web:1
     CONTAINER_NAME: chowchow
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
