@@ -6,7 +6,8 @@ on:
 
 env:
     AWS_REGION: us-east-1
-    ECR_REPOSITORY: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow
+    ECR_REPOSITORY: chowchow
+    ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
     ECS_TASK_DEFINITION: arn:aws:ecs:us-east-1:730866387406:task-definition/ecs-task-definition-web:1
@@ -84,3 +85,8 @@ jobs:
             service: ${{ env.ECS_SERVICE }}
             cluster: ${{ env.ECS_CLUSTER }}
             wait-for-service-stability: true
+
+
+#Successfully built df6885e2e716
+Successfully tagged ***.dkr.ecr.us-east-1.amazonaws.com/***.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow:d8c8fd20ed229d9a31cb6515c882d25a48ac4410
+
