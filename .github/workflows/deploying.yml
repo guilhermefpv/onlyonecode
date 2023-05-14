@@ -46,7 +46,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: "node-repo"
+          ECR_REPOSITORY: "myapp"
           IMAGE_TAG: latest
         run: |
           docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
