@@ -29,7 +29,8 @@ jobs:
             ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             ECR_REPOSITORY: "730866387406.dkr.ecr.us-east-1.amazonaws.com/devops"
             IMAGE_TAG: v1
-          run: |
+          run: | 
+            docker build . --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod  --tag my-image-name:$(date +%s)
             docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
             docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
             echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
