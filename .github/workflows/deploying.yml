@@ -85,8 +85,3 @@ jobs:
             service: ${{ env.ECS_SERVICE }}
             cluster: ${{ env.ECS_CLUSTER }}
             wait-for-service-stability: true
-
-
-#Successfully built df6885e2e716
-Successfully tagged ***.dkr.ecr.us-east-1.amazonaws.com/***.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow:d8c8fd20ed229d9a31cb6515c882d25a48ac4410
-
