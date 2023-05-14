@@ -7,10 +7,10 @@ on:
 env:
     AWS_REGION: us-east-1
     ECR_REPOSITORY: myapp
-    ECR_IMAGE_NAME: latest
+    # ECR_IMAGE_NAME: latest
     ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
-    ECS_SERVICE: devops
-    ECS_CLUSTER: cluster
+    ECS_SERVICE: backend-service
+    ECS_CLUSTER: backend-cluster
     ECS_TASK_DEFINITION: fargate-myapp:1
     CONTAINER_NAME: fargate-myapp
     FLASK_APP:  autoapp.py
@@ -25,37 +25,7 @@ permissions:
     contents: read
 
 jobs:
-  BuildAndPushImageToECR:
-    name: "Build and Push to ECR"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Configure AWS Credentials For GitHub Actions
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      
-      - name: Amazon ECR "Login" Action for GitHub Actions
-        id: login-ecr
-        # uses: aws-actions/amazon-ecr-login@v1
-        uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
-      - name: Build, Tag, and Push Image to Amazon ECR 🏷
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: "myapp"
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
 
   deploy:
     name: Deploy Amazon ECS Task Definition
@@ -64,16 +34,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Amazon ECR "Login" Action for GitHub Actions
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, Tag, and Push Image to Amazon ECR 🏷
+        id: build-image
+        env:
+           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+           ECR_REPOSITORY: "myapp"
+           IMAGE_TAG: ${{ github.sha }}
+        run: |
+              # Build a docker container and
+              # push it to ECR so that it can
+              # be deployed to ECS.
+              docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+              docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+              echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+              echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-definition
-        # uses: aws-actions/amazon-ecs-render-task-definition@v1
-        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
             task-definition: ${{ env.ECS_TASK_DEFINITION }}
             container-name: ${{ env.CONTAINER_NAME }}
@@ -82,7 +71,7 @@ jobs:
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-            task-definition: ${{ steps.task-definition.outputs.task-definition }}
+            task-definition: ${{ steps.task-def.outputs.task-definition }}
             service: ${{ env.ECS_SERVICE }}
             cluster: ${{ env.ECS_CLUSTER }}
             wait-for-service-stability: true
