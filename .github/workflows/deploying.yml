@@ -4,11 +4,29 @@ on:
     branches:
     - master
   pull_request:
+env:
+    AWS_REGION: us-east-1
+    # ECR_REPOSITORY: devops
+    # ECR_IMAGE_NAME: chowchow
+    # ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
+    ECS_SERVICE: devops
+    ECS_CLUSTER: cluster
+    ECS_TASK_DEFINITION: arn:aws:ecs:us-east-1:730866387406:task-definition/ecs-task-definition-web:1
+    CONTAINER_NAME: chowchow
+    FLASK_APP:  autoapp.py
+    FLASK_DEBUG: 0
+    FLASK_ENV:  production
+    GUNICORN_WORKERS: 4
+    LOG_LEVEL:  info
+    SECRET_KEY: fLtqRxhPGJ9Z0mQDnffuRUBEL_FYf5ueLHSXbPRIuVY
+    SEND_FILE_MSEND_FILE_MAX_AGE_DEFAULT: 3155692
+
+permissions:
+    contents: read
 jobs:
   BuildAndPushImageToECR:
     name: "Build and Push to ECR"
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -34,3 +52,33 @@ jobs:
           docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ env.AWS_REGION }}
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+           task-definition: ${{ env.ECS_TASK_DEFINITION }}
+           container-name: ${{ env.CONTAINER_NAME }}
+           image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/node-repo:v1
+           
+           #image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow-prod
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+            task-definition: ${{ steps.task-def.outputs.task-definition }}
+            service: ${{ env.ECS_SERVICE }}
+            cluster: ${{ env.ECS_CLUSTER }}
+            wait-for-service-stability: true
