@@ -11,8 +11,8 @@ env:
     # ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
-    ECS_TASK_DEFINITION: fargate-task-definition
-    CONTAINER_NAME: fargate-webapp
+    ECS_TASK_DEFINITION: fargate-myapp:1
+    CONTAINER_NAME: fargate-myapp
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
     FLASK_ENV:  production
@@ -47,7 +47,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: "node-repo"
-          IMAGE_TAG: v3
+          IMAGE_TAG: latest
         run: |
           docker build --build-arg INSTALL_NODE_VERSION="20.1.0" --build-arg  INSTALL_PYTHON_VERSION="3.11.3" --file Dockerfile.prod --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -69,11 +69,9 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-           task-definition: ${{ env.ECS_TASK_DEFINITION }}
-           container-name: ${{ env.CONTAINER_NAME }}
-           image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/node-repo:latest
-           
-           #image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow-prod
+            task-definition: ${{ env.ECS_TASK_DEFINITION }}
+            container-name: ${{ env.CONTAINER_NAME }}
+            image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
