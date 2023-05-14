@@ -24,5 +24,8 @@ jobs:
 
                 use_compose: true
 
-            - name: Get the output status
-              run: echo "${{ steps.deploy.outputs.status }}"
+            - name: Save state
+              run: echo "::save-state name={name}::{value}"
+
+            - name: Set output
+              run: echo "::set-output name={name}::{value}"
