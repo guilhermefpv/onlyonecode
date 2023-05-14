@@ -11,7 +11,7 @@ env:
     # ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
-    ECS_TASK_DEFINITION: arn:aws:ecs:us-east-1:730866387406:task-definition/ecs-task-definition-web:1
+    ECS_TASK_DEFINITION: ecs-task-definition-web
     CONTAINER_NAME: chowchow
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
@@ -53,7 +53,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
   deploy:
-    name: Deploy
+    name: Deploy Amazon ECS task definition
     runs-on: ubuntu-latest
     environment: production
     steps:
