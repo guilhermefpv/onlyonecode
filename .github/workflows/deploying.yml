@@ -11,8 +11,8 @@ env:
     # ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
-    ECS_TASK_DEFINITION: ecs-task-definition-web
-    CONTAINER_NAME: chowchow
+    ECS_TASK_DEFINITION: fargate-task-definition
+    CONTAINER_NAME: fargate-webapp
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
     FLASK_ENV:  production
@@ -71,7 +71,7 @@ jobs:
         with:
            task-definition: ${{ env.ECS_TASK_DEFINITION }}
            container-name: ${{ env.CONTAINER_NAME }}
-           image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/node-repo:v1
+           image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/node-repo:latest
            
            #image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow-prod
 
