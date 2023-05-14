@@ -24,8 +24,11 @@ jobs:
 
                 use_compose: true
 
-            # - name: Save state
-            #   run: echo "::save-state name={name}::{value}"
-
-            # - name: Set output
-            #   run: echo "::set-output name={name}::{value}"
+            - name: Set the value
+              id: step_one
+              run: |
+                echo "action_state=yellow" >> "$GITHUB_ENV"
+            - name: Use the value
+              id: step_two
+              run: |
+                echo "${{ env.action_state }}" # This will output 'yellow'
