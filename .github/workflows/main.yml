@@ -1,7 +1,7 @@
 name: Deploy Container image to aws-ECR
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ master ]
 
 jobs:
     BuildAndPushImageToECR:
