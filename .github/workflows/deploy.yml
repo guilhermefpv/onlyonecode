@@ -35,7 +35,7 @@ env:
     ECR_REPOSITORY: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops/chowchow
     ECS_SERVICE: devops
     ECS_CLUSTER: cluster
-    ECS_TASK_DEFINITION: ecs-task-definition-web:1
+    ECS_TASK_DEFINITION: arn:aws:ecs:us-east-1:730866387406:task-definition/ecs-task-definition-web:1
     CONTAINER_NAME: chowchow
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
@@ -89,6 +89,7 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
+        #image: 730866387406.dkr.ecr.us-east-1.amazonaws.com/devops:chochow-prod
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
