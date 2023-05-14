@@ -11,7 +11,7 @@ env:
     ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
     ECS_SERVICE: backend-service
     ECS_CLUSTER: backend-cluster
-    ECS_TASK_DEFINITION: fargate-myapp:1
+    ECS_TASK_DEFINITION: fargate-myapp
     CONTAINER_NAME: fargate-myapp
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
