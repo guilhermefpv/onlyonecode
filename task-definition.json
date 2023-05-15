@@ -17,7 +17,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "/ecs/fargate-clocktime-app",
-                    "awslogs-create-group": true,
+                    "awslogs-create-group": "true",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
