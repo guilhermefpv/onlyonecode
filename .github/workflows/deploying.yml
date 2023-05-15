@@ -9,7 +9,7 @@ env:
     ECR_REPOSITORY: clocktime
     # ECR_IMAGE_NAME: latest
     ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
-    ECS_SERVICE: backend-service
+    ECS_SERVICE: fargate-clocktime-app
     ECS_CLUSTER: backend-cluster
     ECS_TASK_DEFINITION: task-definition.json
     CONTAINER_NAME: clocktime-app
