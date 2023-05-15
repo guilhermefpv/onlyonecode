@@ -6,13 +6,13 @@ on:
   pull_request:
 env:
     AWS_REGION: us-east-1
-    ECR_REPOSITORY: myapp
+    ECR_REPOSITORY: clocktime
     # ECR_IMAGE_NAME: latest
     ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
     ECS_SERVICE: backend-service
     ECS_CLUSTER: backend-cluster
     ECS_TASK_DEFINITION: task-definition.json
-    CONTAINER_NAME: fargate-myapp
+    CONTAINER_NAME: clocktime-app
     FLASK_APP:  autoapp.py
     FLASK_DEBUG: 0
     FLASK_ENV:  production
@@ -49,7 +49,7 @@ jobs:
         id: build-image
         env:
            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-           ECR_REPOSITORY: "myapp"
+           ECR_REPOSITORY: "clocktime"
            IMAGE_TAG: ${{ github.sha }}
         run: |
               # Build a docker container and
