@@ -22,7 +22,7 @@ RUN npm install
 COPY webpack.config.js autoapp.py ./
 COPY onlyonecode onlyonecode
 COPY assets assets
-COPY .env.example .env
+COPY .env.prod .env
 RUN npm run-script build
 
 # ================================= PRODUCTION =================================

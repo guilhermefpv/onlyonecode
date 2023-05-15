@@ -2,12 +2,12 @@
     "taskDefinitionArn": "arn:aws:ecs:us-east-1:730866387406:task-definition/fargate-myapp:1",
     "containerDefinitions": [
         {
-            "name": "myapp",
-            "image": "myapp:latest",
+            "name": "clocktime",
+            "image": "clocktime:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "myapp-5000-tcp",
+                    "name": "clocktime-5000-tcp",
                     "containerPort": 5000,
                     "hostPort": 5000,
                     "protocol": "tcp",
@@ -23,7 +23,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/fargate-myapp",
+                    "awslogs-group": "/ecs/fargate-clocktime-app",
                     "awslogs-create-group": "true",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
@@ -31,7 +31,7 @@
             }
         }
     ],
-    "family": "fargate-myapp",
+    "family": "fargate-clocktime",
     "executionRoleArn": "arn:aws:iam::730866387406:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
@@ -71,7 +71,5 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2023-05-14T11:48:16.296Z",
-    "registeredBy": "arn:aws:iam::730866387406:root",
-    "tags": []
+    "tags": ["clocktime-app"]
 }
