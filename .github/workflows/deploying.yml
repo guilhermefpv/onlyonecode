@@ -18,7 +18,7 @@ env:
     FLASK_ENV:  production
     GUNICORN_WORKERS: 4
     LOG_LEVEL:  info
-    SECRET_KEY: fLtqRxhPGJ9Z0mQDnffuRUBEL_FYf5ueLHSXbPRIuVY
+    SECRET_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     SEND_FILE_MSEND_FILE_MAX_AGE_DEFAULT: 3155692
 
 permissions:

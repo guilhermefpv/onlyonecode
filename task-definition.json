@@ -2,7 +2,7 @@
     "taskDefinitionArn": "arn:aws:ecs:us-east-1:730866387406:task-definition/fargate-myapp:1",
     "containerDefinitions": [
         {
-            "name": "clocktime",
+            "name": "clocktime-app",
             "image": "clocktime:latest",
             "cpu": 0,
             "portMappings": [
