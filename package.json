@@ -1,7 +1,7 @@
 {
-  "name": "onlyonecode",
+  "name": "clocktime",
   "version": "1.0.0",
-  "description": "DevOps/SRE - Uma aplicação web simples para validar ferramentas de monitoramento e observabilidade.",
+  "description": "A flask app.",
   "scripts": {
     "build": "run-script-os",
     "build:win32": "SET NODE_ENV=production && webpack --progress --color --optimization-minimize && npm run flask-static-digest",
@@ -18,21 +18,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/guilhermefpv/onlyonecode.git"
+    "url": "git+https://github.com/yourGithubUsername/clocktime.git"
   },
-  "author": "Guilherme Souza",
+  "author": "First Last",
   "license": "MIT",
   "engines": {
     "node": ">=18"
   },
   "bugs": {
-    "url": "https://github.com/guilhermefpv/onlyonecode/issues"
+    "url": "https://github.com/yourGithubUsername/clocktime/issues"
   },
-  "homepage": "https://github.com/guilhermefpv/onlyonecode#readme",
+  "homepage": "https://github.com/yourGithubUsername/clocktime#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.4.0",
     "bootstrap": "5.2.3",
-    "jquery": "3.6.4",
+    "jquery": "3.7.0",
     "@popperjs/core": "2.11.7"
   },
   "devDependencies": {

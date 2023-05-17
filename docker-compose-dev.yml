@@ -2,7 +2,7 @@ version: "3.8"
 
 x-build-args: &build_args
   INSTALL_PYTHON_VERSION: "3.11.3"
-  INSTALL_NODE_VERSION: "20.1.0"
+  INSTALL_NODE_VERSION: "18.16.0"
 
 x-default-volumes: &default_volumes
   volumes:
@@ -16,7 +16,7 @@ services:
       target: development
       args:
         <<: *build_args
-    image: "onlyonecode-development"
+    image: "clocktime-development"
     ports:
       - "8080:5000"
       - "2992:2992"
@@ -28,7 +28,7 @@ services:
       target: production
       args:
         <<: *build_args
-    image: "onlyonecode-production"
+    image: "clocktime-production"
     #x-aws-pull_credentials: "arn:aws:secretsmanager:us-east-1:12345:secret:${{secrets.DockerHubAccessToken}}"
     ports:
       - "8080:5000"
@@ -49,7 +49,7 @@ services:
     environment:
       FLASK_ENV: production
       FLASK_DEBUG: 0
-    image: "onlyonecode-manage"
+    image: "clocktime-manage"
     stdin_open: true
     tty: true
     <<: *default_volumes

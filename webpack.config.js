@@ -33,7 +33,7 @@ module.exports = {
   output: {
     chunkFilename: "[id].js",
     filename: "[name].bundle.js",
-    path: path.join(__dirname, "onlyonecode", "static", "build"),
+    path: path.join(__dirname, "clocktime", "static", "build"),
     publicPath: "/static/build/"
   },
   resolve: {

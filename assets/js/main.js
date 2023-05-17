@@ -1,5 +1,5 @@
 /*
- * Main Javascript file for onlyonecode.
+ * Main Javascript file for clocktime.
  *
  * This file bundles all of your javascript together using webpack.
  */

@@ -49,7 +49,7 @@ env/
 /node_modules/
 
 # webpack-built files
-/onlyonecode/static/build/
+/clocktime/static/build/
 
 # Configuration
 .env

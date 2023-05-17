@@ -1,35 +1,95 @@
 {
+    "executionRoleArn": "arn:aws:iam::730866387406:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
             "name": "clocktime-app",
-            "image": "clocktime:latest",
+            "image": "clocktime-stack/ecs-clocktime-app:latest",
+            "cpu": "256",
+            "memory": "256",
+            "essential": true,
             "portMappings": [
                 {
-                    "name": "clocktime-5000-tcp",
-                    "containerPort": 5000,
                     "hostPort": 5000,
                     "protocol": "tcp",
-                    "appProtocol": "http"
+                    "containerPort": 5000
                 }
             ],
-            "essential": true,
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/fargate-clocktime-app",
+                    "awslogs-group": "/ecs/clocktime-app",
                     "awslogs-create-group": "true",
                     "awslogs-region": "us-east-1",
-                    "awslogs-stream-prefix": "ecs"
+                    "awslogs-stream-prefix": "ecs-clocktime-app"
+                }
+            },
+            "environment": [
+                {
+                  "name": "FLASK_ENV",
+                  "value": "production"
+                },
+                {
+                  "name": "LOG_LEVEL",
+                  "value": "debug"
+                },
+                {
+                  "name": "SECRET_KEY_BASE",
+                  "value": "fLtqRxhPGJ9Z0mQDnffuRUBEL_FYf5ueLHSXbPRIuVY"
+                },
+                {
+                  "name": "GUNICORN_WORKERS",
+                  "value": "4"
+                },
+                {
+                  "name": "SEND_FILE_MAX_AGE_DEFAULT",
+                  "value": "3155692"
+                },
+                {
+                  "name": "FLASK_DEBUG",
+                  "value": "1"
+                },
+                {
+                  "name": "OTEL_PYTHON_FLASK_EXCLUDED_URLS",
+                  "value": "client/.*/info,healthcheck"
+                },
+                {
+                    "name": "DSN_SENTRY",
+                    "value": "https://936bfeb3bf734d64a3d3dab62d39dc9a@o4505196034981888.ingest.sentry.io/4505196056346624"
+                }
+            ]
+        },
+        {
+            "name": "clocktime-nginx",
+            "image": "clocktime-stack/ecs-clocktime-nginx:latest",
+            "cpu": "256",
+            "memory": "256",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "clocktime-app"
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/clocktime-nginx",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs-clocktime-nginx"
                 }
             }
         }
     ],
-    "family": "fargate-clocktime",
-    "executionRoleArn": "arn:aws:iam::730866387406:role/ecsTaskExecutionRole",
-    "networkMode": "awsvpc",
-    "requiresCompatibilities": [
-        "FARGATE"
+    "requiresCompatibilities": [ 
+        "EC2"
     ],
-    "cpu": "256",
-    "memory": "512"
+    "placementConstraints": [], 
+    "volumes": [],
+    "family": "ecs-clocktime-stack",
+    "networkMode": "bridge"
 }

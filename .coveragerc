@@ -1,5 +1,5 @@
 [run]
-source = onlyonecode
+source = clocktime
 omit = 
     tests/*
     autoapp.py

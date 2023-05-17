@@ -1,5 +1,5 @@
-[![Build Status](https://github.com/guilhermefpv/onlyonecode/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/guilhermefpv/onlyonecode/actions/workflows/lint.yml)
-# onlyonecode
+[![Build Status](https://github.com/guilhermefpv/clocktime/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/guilhermefpv/clocktime/actions/workflows/lint.yml)
+# clocktime
 
 Uma aplicação web simples
 
@@ -36,7 +36,8 @@ Go to `http://localhost:8080`. You will see a current clocktime screen.
 Run the following commands to bootstrap your environment if you are unable to run the application using Docker
 
 ```bash
-cd onlyonecode
+git clone https://github.com/guilhermefpv/clocktime.git 
+cd clocktime
 pip install -r requirements/dev.txt
 npm install
 npm run-script build

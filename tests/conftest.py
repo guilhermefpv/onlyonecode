@@ -6,7 +6,7 @@ import logging
 import pytest
 from webtest import TestApp
 
-from onlyonecode.app import create_app
+from clocktime.app import create_app
 
 
 @pytest.fixture

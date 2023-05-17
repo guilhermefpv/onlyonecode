@@ -9,7 +9,7 @@ from multiprocessing import Queue
 from flask import Flask, render_template
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from settings import DSN_SENTRY
+from clocktime.settings import DSN_SENTRY
 from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
 from clocktime import commands, public
 from clocktime.extensions import cache, debug_toolbar, flask_static_digest
@@ -36,7 +36,7 @@ def create_app(config_object="clocktime.settings"):
     """
     app = Flask(__name__.split(".")[0])
     # OpenTelemetry
-    # app.wsgi_app = OpenTelemetryMiddleware(app.wsgi_app)
+    app.wsgi_app = OpenTelemetryMiddleware(app.wsgi_app)
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
@@ -63,14 +63,11 @@ def register_blueprints(app):
 
 def register_errorhandlers(app):
     """Register error handlers."""
-    meter = get_meter_provider().get_meter("clocktime-app", "0.0.1")
-    todo_counter = meter.create_up_down_counter("todo_count")
 
     def render_error(error):
         """Render error template."""
         # If a HTTPException, pull the `code` attribute; default to 500
         error_code = getattr(error, "code", 500)
-        todo_counter.add(-1)
         return render_template(f"{error_code}.html"), error_code
 
     for errcode in [401, 404, 500]:
@@ -93,21 +90,37 @@ def register_commands(app):
     app.cli.add_command(commands.lint)
 
 
-# def configure_logger(app):
-#     """Configure loggers."""
-#     handler = logging.StreamHandler(sys.stdout)
-#     if not app.logger.handlers:
-#         app.logger.addHandler(handler)
-# https://github.com/GreyZmeem/python-logging-loki
 def configure_logger(app):
-    """Configure logging_loki."""
+    """Configure loggers."""
     handler = logging.StreamHandler(sys.stdout)
-    handler = logging_loki.LokiQueueHandler(
-        Queue(-1),
-        url="https://172./loki/api/v1/push",
-        tags={"application": "clocktime-app"},
-        auth=("username", "password"),
-        version="1",
-    )
     if not app.logger.handlers:
         app.logger.addHandler(handler)
+
+# class RequestIdMiddleware:
+#         def __init__(self, get_response):
+#             self.get_response = get_response
+    
+#         def __call__(self, request):
+#             # If there's an `X-Request-Id` header on the request,
+#             # bind it to our Sentry SDK scope.
+#             request_id = request.META.get("HTTP_X_REQUEST_ID")
+#             if request_id:
+#                 with sentry_sdk.configure_scope() as scope:
+#                     scope.set_tag("request_id", request_id)
+#             return self.get_response(request)
+
+
+
+# # https://github.com/GreyZmeem/python-logging-loki
+# def configure_logger(app):
+#     """Configure logging_loki."""
+#     # handler = logging.StreamHandler(sys.stdout)
+#     handler = logging_loki.LokiQueueHandler(
+#         Queue(-1),
+#         url="https://loki/api/v1/push",
+#         tags={"application": "clocktime-app"},
+#         auth=("username", "password"),
+#         version="1",
+#     )
+#     if not app.logger.handlers:
+#         app.logger.addHandler(handler)

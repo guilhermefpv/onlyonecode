@@ -1,5 +1,5 @@
 {
-   "name": "onlyonecode",
+   "name": "clocktime",
    "env": {
       "SECRET_KEY": {
          "description": "SECRET_KEY.",

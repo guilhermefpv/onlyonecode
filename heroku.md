@@ -13,7 +13,7 @@ Deployment by using [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cl
 * Create Heroku App. You can leave your app name, change it, or leave it blank (random name will be generated)
 
     ```bash
-    heroku create onlyonecode
+    heroku create clocktime
     ```
 
 * Add buildpacks
