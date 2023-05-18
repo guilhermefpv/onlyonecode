@@ -22,7 +22,7 @@ Flask-DebugToolbar==0.13.1
 # Environment variable parsing
 environs==9.5.0
 
-pymongo==3.12.1
+pymongo==4.3.3
 requests==2.26.0
 
 uptrace==1.17.1
