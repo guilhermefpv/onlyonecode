@@ -60,4 +60,4 @@ task-definition.json
 # Development database
 *.db
 *.Zone.Identifier
-
+webpack.config.js:Zone.Identifier
