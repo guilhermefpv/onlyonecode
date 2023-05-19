@@ -22,10 +22,9 @@ Flask-DebugToolbar==0.13.1
 # Environment variable parsing
 environs==9.5.0
 
-pymongo==3.12.1
 requests==2.26.0
 
-uptrace==1.17.1
+#uptrace==1.17.1
 itsdangerous==2.1.2
 
 # Loki
@@ -37,14 +36,14 @@ sentry-sdk==1.23.0
 # Newrelic
 newrelic
 
-# OpenTelemetry
+# Testando o OpenTelemetry
 # https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/wsgi/wsgi.html
 opentelemetry-api
 opentelemetry-sdk
 opentelemetry-distro
-opentelemetry-instrumentation
+# opentelemetry-instrumentation
 opentelemetry-exporter-otlp
+#opentelemetry-instrumentation-flask
 opentelemetry-instrumentation-wsgi
-opentelemetry-instrumentation-flask==0.38b0
 
 grpcio

@@ -3,7 +3,7 @@
 
 Uma aplicação web simples
 
-## Docker Quickstart
+## Quickstart
 
 This app can be run completely using `Docker` and `docker-compose`. **Using Docker is recommended, as it guarantees the application is run using compatible versions of Python and Node**.
 
@@ -12,13 +12,16 @@ There are three main services:
 To run the development version of the app
 
 ```bash
-docker-compose up flask-dev
+$ docker-compose up flask-dev
 ```
 
 To run the production version of the app
 
 ```bash
-docker-compose up flask-prod
+$ docker-compose up flask-prod
+or
+$ make build
+$ make run
 ```
 
 The list of `environment:` variables in the `docker-compose.yml` file takes precedence over any variables specified in `.env`.
@@ -26,7 +29,7 @@ The list of `environment:` variables in the `docker-compose.yml` file takes prec
 To run any commands using the `Flask CLI`
 
 ```bash
-docker-compose run --rm manage <<COMMAND>>
+$ docker-compose run --rm manage <<COMMAND>>
 ```
 
 Go to `http://localhost:8080`. You will see a current clocktime screen.
@@ -36,12 +39,12 @@ Go to `http://localhost:8080`. You will see a current clocktime screen.
 Run the following commands to bootstrap your environment if you are unable to run the application using Docker
 
 ```bash
-git clone https://github.com/guilhermefpv/clocktime.git 
-cd clocktime
-pip install -r requirements/dev.txt
-npm install
-npm run-script build
-npm start  # run the webpack dev server and flask server using concurrently
+$ git clone https://github.com/guilhermefpv/clocktime.git 
+$ cd clocktime
+$ pip install -r requirements/dev.txt
+$ npm install
+$ npm run-script build
+$ npm start  # run the webpack dev server and flask server using concurrently
 ```
 
 Go to `http://localhost:8080`. You will see a current clocktime screen.
@@ -59,16 +62,18 @@ FLASK_DEBUG=0
 Therefore, starting the app in "production" mode is as simple as
 
 ```bash
-docker-compose up flask-prod
+$ docker-compose up flask-prod
+or 
+$ make run
 ```
 
 If running without Docker
 
 ```bash
-export FLASK_ENV=production
-export FLASK_DEBUG=0
-npm run build   # build assets with webpack
-flask run       # start the flask server
+$ export FLASK_ENV=production
+$ export FLASK_DEBUG=0
+$ npm run build   # build assets with webpack
+$ flask run       # start the flask server
 ```
 
 ## Shell
@@ -76,8 +81,8 @@ flask run       # start the flask server
 To open the interactive shell, run
 
 ```bash
-docker-compose run --rm manage shell
-flask shell # If running locally without Docker
+$ docker-compose run --rm manage shell
+$ flask shell # If running locally without Docker
 ```
 
 By default, you will have access to the flask `app`.
@@ -87,15 +92,21 @@ By default, you will have access to the flask `app`.
 To run all tests, run
 
 ```bash
-docker-compose run --rm manage test
-flask test # If running locally without Docker
+$ docker-compose run --rm manage test
+or
+$ make test
+or
+$ flask test # If running locally without Docker
 ```
 
 To run the linter, run
 
 ```bash
-docker-compose run --rm manage lint
-flask lint # If running locally without Docker
+$ docker-compose run --rm manage lint
+or
+$ make lint
+or
+$ flask lint # If running locally without Docker
 ```
 
 The `lint` command will attempt to fix any linting/style errors in the code. If you only want to know if the code will pass CI and do not wish for the linter to make changes, add the `--check` argument.
@@ -123,4 +134,3 @@ in ``.env``:
 ```text
 SEND_FILE_MAX_AGE_DEFAULT=31556926  # one year
 ```
-

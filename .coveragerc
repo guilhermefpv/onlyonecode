@@ -3,4 +3,3 @@ source = clocktime
 omit = 
     tests/*
     autoapp.py
-

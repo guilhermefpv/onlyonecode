@@ -1,5 +1,5 @@
 {
-   "name": "clocktime",
+   "name": "clocktime-app",
    "env": {
       "SECRET_KEY": {
          "description": "SECRET_KEY.",
@@ -18,12 +18,5 @@
          "url": "heroku/python"
       }
    ],
-   "addons": [
-      {
-         "plan": "heroku-postgresql:hobby-dev",
-         "options": {
-            "version": "11"
-         }
-      }
-   ]
+   "addons": []
 }

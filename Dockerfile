@@ -17,7 +17,7 @@ RUN python -m pip install grpcio
 RUN pip install --no-cache -r requirements/prod.txt
 
 COPY package.json ./
-RUN npm install
+RUN npm install --silent
 
 COPY webpack.config.js autoapp.py ./
 COPY clocktime clocktime
@@ -27,23 +27,23 @@ RUN npm run-script build
 
 # ================================= PRODUCTION =================================
 FROM python:${INSTALL_PYTHON_VERSION}-slim-buster as production
-RUN apt-get -y update; apt-get -y install curl
-RUN apt-get update \
-  && apt-get install --no-install-recommends --yes \
-    curl \
-    dnsutils \
-    httpie \
-    iputils-ping \
-    jq \
-    netcat-openbsd \
-    net-tools \
-    telnet \
-    vim \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+# Ferramentas para 'troubleshoot' 
+# RUN apt-get -y update; apt-get -y install curl
+# RUN apt-get update \
+#   && apt-get install --no-install-recommends --yes \
+#     curl \
+#     dnsutils \
+#     httpie \
+#     iputils-ping \
+#     jq \
+#     netcat-openbsd \
+#     net-tools \
+#     telnet \
+#     vim \
+#     wget \
+#     && rm -rf /var/lib/apt/lists/*
     
 WORKDIR /app
-#RUN python -m pip install grpcio
 RUN useradd -m sid
 RUN chown -R sid:sid /app
 USER sid
@@ -60,8 +60,6 @@ COPY . .
 EXPOSE 5000
 ENTRYPOINT ["/bin/bash", "shell_scripts/supervisord_entrypoint.sh"]
 CMD ["-c", "/etc/supervisor/supervisord.conf"]
-
-
 
 # ================================= DEVELOPMENT ================================
 FROM builder AS development

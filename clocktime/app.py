@@ -6,13 +6,15 @@ import sys
 
 # import logging_loki
 from multiprocessing import Queue
-from flask import Flask, render_template
+
 import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
-from clocktime.settings import DSN_SENTRY
+from flask import Flask, render_template
 from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
+from sentry_sdk.integrations.flask import FlaskIntegration
+
 from clocktime import commands, public
 from clocktime.extensions import cache, debug_toolbar, flask_static_digest
+from clocktime.settings import DSN_SENTRY
 
 sentry_sdk.init(
     dsn=DSN_SENTRY,
@@ -95,6 +97,7 @@ def configure_logger(app):
     handler = logging.StreamHandler(sys.stdout)
     if not app.logger.handlers:
         app.logger.addHandler(handler)
+
 
 # class RequestIdMiddleware:
 #         def __init__(self, get_response):

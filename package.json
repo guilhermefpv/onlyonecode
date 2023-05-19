@@ -1,7 +1,7 @@
 {
-  "name": "clocktime",
+  "name": "clocktime-app",
   "version": "1.0.0",
-  "description": "A flask app.",
+  "description": "Clocktime-APP uma aplicação simples escrita em python usando o frame work flask.",
   "scripts": {
     "build": "run-script-os",
     "build:win32": "SET NODE_ENV=production && webpack --progress --color --optimization-minimize && npm run flask-static-digest",
