@@ -4,7 +4,7 @@ import logging
 import logging.handlers
 import sys
 
-import logging_loki
+# import logging_loki
 from multiprocessing import Queue
 from flask import Flask, render_template
 import sentry_sdk
@@ -99,8 +99,8 @@ def configure_logger(app):
 # class RequestIdMiddleware:
 #         def __init__(self, get_response):
 #             self.get_response = get_response
-    
-#         def __call__(self, request):
+#
+# #         def __call__(self, request):
 #             # If there's an `X-Request-Id` header on the request,
 #             # bind it to our Sentry SDK scope.
 #             request_id = request.META.get("HTTP_X_REQUEST_ID")
@@ -108,13 +108,11 @@ def configure_logger(app):
 #                 with sentry_sdk.configure_scope() as scope:
 #                     scope.set_tag("request_id", request_id)
 #             return self.get_response(request)
-
-
-
 # # https://github.com/GreyZmeem/python-logging-loki
 # def configure_logger(app):
 #     """Configure logging_loki."""
-#     # handler = logging.StreamHandler(sys.stdout)
+##
+#   # handler = logging.StreamHandler(sys.stdout)
 #     handler = logging_loki.LokiQueueHandler(
 #         Queue(-1),
 #         url="https://loki/api/v1/push",

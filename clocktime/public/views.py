@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage/healthcheck."""
+from flask import Blueprint, render_template
 from datetime import datetime
 from random import randrange
 
 import requests
-from flask import Blueprint, render_template
 
 blueprint = Blueprint("public", __name__, static_folder="../static")
 
@@ -14,7 +14,7 @@ def home():
     """Home page."""
     res_time = dinamico()
     res = [randrange(1, 50, 1) for i in range(6)]
-    print("Random number list is :  +",  str(res))
+    # print("Random number list is :  +",  str(res))
     return render_template("public/home.html",
                            timestamp=res_time,
                            random_num_list=str(res))
@@ -24,23 +24,18 @@ def home():
 def healthcheck():
     """Home page."""
     return "Working OK"
-    # return render_template("public/healthcheck.html")
 
 
 @blueprint.route("/dinamico/")
 def dinamico():
     """Home page."""
     now = datetime.now()
-    request_time = now.strftime("%d/%m/%Y %H:%M")  # dd/mm/YY H:M:S
-    # log.info(
-    #     "Teste de acesso a rota default",
-    #     extra={"tags": {"service": "web"}},
-    # )
+    request_time = now.strftime("%d %B %Y %I:%M:%S %p")   # "%d/%m/%Y %H:%M" dd/mm/YY H:M:S
     return f"horário da requisição: {request_time}"
 
 
 # Generate Error for Test openTelemetry
-@blueprint.route("/generate-error/", methods=["GET"])
+@blueprint.route("/generate-error/")
 def generate_error():
     """Generate Error for Test openTelemetry."""
     if randrange(10) % 2:

@@ -1,4 +1,4 @@
-name: "Build and push to ECR"
+name: "Build Stack and Push to ECR"
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
   pull_request:
 env:
     AWS_REGION: us-east-1
-    ECR_REGISTRY: 730866387406.dkr.ecr.us-east-1.amazonaws.com
+    ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
     ECR_APP_REPOSITORY: clocktime-app
     #amazonaws.com/ECR_REPOSITORY:TAG
     IMAGE_TAG: latest

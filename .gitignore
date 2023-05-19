@@ -56,3 +56,4 @@ env/
 
 # Development database
 *.db
+*.Zone.Identifier

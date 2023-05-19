@@ -1,13 +1,8 @@
 version: "3.8"
 
-networks:
-  clickhouse-default:
-    name: clickhouse-default
-    driver: bridge
-
 x-build-args: &build_args
   INSTALL_PYTHON_VERSION: "3.11.3"
-  INSTALL_NODE_VERSION: "20.1.0"
+  INSTALL_NODE_VERSION: "18.16.0"
 
 x-default-volumes: &default_volumes
   volumes:
@@ -15,19 +10,18 @@ x-default-volumes: &default_volumes
     - node-modules:/app/node_modules
 
 services:
-  clocktime-app-dev:
+  flask-dev:
     build:
       context: .
       target: development
       args:
         <<: *build_args
-    image: "clocktime-app-dev"
+    image: "clocktime-development"
     ports:
       - "8080:5000"
       - "2992:2992"
     <<: *default_volumes
-
-  clocktime-nginx:
+  nginx:
     build:
       context: ./nginx
     ports:
@@ -35,37 +29,23 @@ services:
     container_name: clocktime-nginx
     hostname: clocktime-nginx
     links:
-      - clocktime-app
-    networks:
-      - clickhouse-default
-
-  clocktime-app:
+      - flask-prod
+  flask-prod:
     build:
       context: .
       target: production
       args:
         <<: *build_args
-    image: "clocktime-app"
-    networks:
-      - clickhouse-default
-    ports:
-      - "8080:5000"
-    extra_hosts:
-      - signoz:host-gateway
+    image: "clocktime-production"
     container_name: clocktime-app
     hostname: clocktime-app
+    ports:
+      - "8080:5000"
     environment:
       FLASK_ENV: production
-      FLASK_DEBUG: 1
-      LOG_LEVEL: debug
+      FLASK_DEBUG: 0
+      LOG_LEVEL: info
       GUNICORN_WORKERS: 4
-      # OpenTelemetry + SigNoz
-      OTEL_RESOURCE_ATTRIBUTES: service.name=clocktime-app
-      # Replace to appropriate SigNoz OtelCollector endpoint, if applicable
-      # OTEL_EXPORTER_OTLP_ENDPOINT: "http://172.25.0.9:4318"
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz:4317
-      OTEL_PYTHON_FLASK_EXCLUDED_URLS: "client/.*/info,healthcheck"
-      DSN_SENTRY: "https://936bfeb3bf734d64a3d3dab62d39dc9a@o4505196034981888.ingest.sentry.io/4505196056346624"
     <<: *default_volumes
 
   manage:
@@ -79,8 +59,6 @@ services:
       FLASK_ENV: production
       FLASK_DEBUG: 0
     image: "clocktime-manage"
-    container_name: clocktime-manage
-    hostname: clocktime-manage
     stdin_open: true
     tty: true
     <<: *default_volumes

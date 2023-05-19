@@ -43,7 +43,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
     
 WORKDIR /app
-RUN python -m pip install grpcio
+#RUN python -m pip install grpcio
 RUN useradd -m sid
 RUN chown -R sid:sid /app
 USER sid
@@ -51,9 +51,7 @@ ENV PATH="/home/sid/.local/bin:${PATH}"
 
 COPY --from=builder --chown=sid:sid /app/clocktime/static /app/clocktime/static
 COPY requirements requirements
-#RUN opentelemetry-bootstrap --action=install
 RUN pip install --no-cache --user -r requirements/prod.txt
-
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisord_programs /etc/supervisor/conf.d
 

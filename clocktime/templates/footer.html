@@ -1,7 +1,7 @@
 <footer>
   <small>
   <ul class="company">
-    <li>{{ timestamp }} Numeros da sorte: {{ random_num_list }}</li>
+    <li><a href="{{ url_for('public.generate_error') }}">Test-Error-500<a></li>
   </ul>
     <ul class="footer-nav">
       <li><a href="{{ url_for('public.healthcheck') }}">Healthcheck</a></li>
